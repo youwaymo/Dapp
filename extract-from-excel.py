@@ -12,12 +12,15 @@ data = []
 
 # Fetching Data:
 for row in ws.rows:
+    # Eliminate blank rows
     if not row[0].value:
        break
     temp = []
     for cell in row:
+        # Eliminate blank Cells
         if not cell.value:
             break
+        # Formating Date
         if isinstance(cell.value, datetime):
             temp.append(cell.value.strftime(f'%d/%m/%Y'))
             continue
