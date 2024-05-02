@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="Css/style.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="#">
     <title>Document</title>
 </head>
 <body>
@@ -31,16 +32,18 @@
                         <th>CIN</th>
                         <th>Sexe</th>
                         <th>Affiliation RCAR</th>
+                        <th>Actions</th>
                     </tr>
                     <tr>
-                        <form action="search.py" method="post">
-                            <th><input type="search" placeholder="Id" id="id"></th>
-                            <th><input type="search" placeholder="Prenom" id="prenom"></th>
-                            <th><input type="search" placeholder="Nom" id="nom"></th>
+                        <form action="http://127.0.0.1:8000" method="post">
+                            <th><input type="search" placeholder="Id" id="id" name="id"></th>
+                            <th><input type="search" placeholder="Prenom" id="prenom" name="prenom"></th>
+                            <th><input type="search" placeholder="Nom" id="nom" name="nom"></th>
                             <th>-----</th>
-                            <th><input type="search" placeholder="CIN" id="cin"></th>
+                            <th><input type="search" placeholder="CIN" id="cin" name="cin"></th>
                             <th>-----</th>
                             <th>-----</th>
+                            <th><input type="submit" id="submit" value="Search" name="submit"></th>
                         </form>
                     </tr>
                 </thead>
@@ -53,6 +56,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td style="text-align: center;">-----</td>
                     </tr>
                 </tbody>
             </table>
