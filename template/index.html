@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="Css/style.css" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="#">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block body %}
+
     <header>
-        <div class="logo"><img src="assets/img/logo.png"></div>
+        <div class="logo"><img src="../assets/img/logo.png"></div>
         <nav>
             <ul>
                 <li><i class="fa-solid fa-house"></i><a href="#">Home</a></li>
@@ -62,9 +55,5 @@
             </table>
         </section>
     </main>
-    <footer>
-        <script src="Js/script.js"></script>
 
-    </footer>
-</body>
-</html>
+{% endblock %}
