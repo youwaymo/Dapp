@@ -105,16 +105,18 @@ table{
 table tr th{
     height: 50px;
     border: 1.2px solid red;
+    min-width: 100px;
 }
 
 td{
     height: 30px;
     border: 1px solid red;
-
+    text-align: center;
+    min-width: 100px;
 }
 
 table input{
-    width: 100px;
+    width: 90px;
     height: 20px;
     border: none;
     border-radius: 2px;

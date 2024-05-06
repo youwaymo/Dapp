@@ -6,8 +6,8 @@
         <div class="logo"><img src="../assets/img/logo.png"></div>
         <nav>
             <ul>
-                <li><i class="fa-solid fa-house"></i><a href="#">Home</a></li>
-                <li><i class="fa-solid fa-user"></i><a href="#">Profile</a></li>
+                <li><i class="fa-solid fa-house"></i><a href="index.html">Home</a></li>
+                <li><i class="fa-solid fa-user"></i><a href="profile.html">Profile</a></li>
                 <li><i class="fa-solid fa-users"></i><a href="#">Employees</a></li>
             </ul>
         </nav>
@@ -21,6 +21,7 @@
                         <th>Matricule</th>
                         <th>Prenom</th>
                         <th>Nom</th>
+                        <th>Grade</th>
                         <th>DN</th>
                         <th>CIN</th>
                         <th>Sexe</th>
@@ -33,6 +34,7 @@
                             <th><input type="search" placeholder="Prenom" id="prenom" name="prenom"></th>
                             <th><input type="search" placeholder="Nom" id="nom" name="nom"></th>
                             <th>-----</th>
+                            <th>-----</th>
                             <th><input type="search" placeholder="CIN" id="cin" name="cin"></th>
                             <th>-----</th>
                             <th>-----</th>
@@ -42,14 +44,23 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td style="text-align: center;">-----</td>
+                {% if data %}
+                        
+                        <td>{{ data[0] }}</td>
+                        <td>{{ data[1] }}</td>
+                        <td>{{ data[2] }}</td>
+                        <td>{{ data[3] }}</td>
+                        <td>{{ data[4] }}</td>
+                        <td>{{ data[5] }}</td>
+                        <td>{{ data[6] }}</td>
+                        <td>{{ data[7] }}</td>
+                        <td>-----</td>
+
+                {% elif message %}
+                        <td colspan="9"> {{ message }}  </td>
+                {% else %}
+                        <td colspan="9"> No Data </td>
+                {% endif %}
                     </tr>
                 </tbody>
             </table>

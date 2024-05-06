@@ -2,14 +2,15 @@ import warnings
 # to ignore all warnings
 warnings.filterwarnings('ignore')
 
-import os
-
 # import the needed modules from jinja2
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import cgi
 import search
+import os
+import template
+
 
 class handler(BaseHTTPRequestHandler):
 
@@ -27,7 +28,7 @@ class handler(BaseHTTPRequestHandler):
                 '.js': 'text/javascript',
                 '.png': 'image/png',
                 '.woff2': 'font/woff2',
-                'ttf': 'font/ttf'
+                '.ttf': 'font/ttf'
             }.get(file_extension, 'application/octet-stream')
 
             self.send_response(200)
@@ -38,7 +39,6 @@ class handler(BaseHTTPRequestHandler):
                 with open('.' + self.path, 'rb') as file:
                     self.wfile.write(file.read())
             except FileNotFoundError:
-                self.send_response(404)
                 self.send_error(404, f'File Not Found: {self.path}')
 
         else:
@@ -46,15 +46,10 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            # set the environment variable for basic configuration
-                # This configures autoescaping for the templates. 
-                # Autoescaping helps prevent XSS (cross-site scripting) attacks by automatically escaping potentially dangerous characters in the rendered output.
-            env = Environment(loader=FileSystemLoader("template"), autoescape=select_autoescape()) 
+            tmplt = template.template_generator.template('template')
+            message = tmplt.render()
 
-            # get the template from the env variable
-            template = env.get_template('index.html')
-
-            self.wfile.write(bytes(template.render(), 'utf8'))
+            self.wfile.write(bytes(message, 'utf8'))
     
     # description of how to handle POST requests
     def do_POST(self):
@@ -68,18 +63,18 @@ class handler(BaseHTTPRequestHandler):
             headers=self.headers, # gets the header
             environ={'REQUEST_METHOD': 'POST'} # inform the cgi with request method
         )
-
         
         if 'id' in form:
             id = form['id'].value
             # get the user with the search module
             if search.find_user(id):
                 data =  search.find_user(id)
-                message = f'Hello, {data[1]} {data[2]}'
+                message = template('template').render(data = data)
+
             else : 
-                message = 'khona wla khtna makayn(a)ch'
+                message = template('template').render(message = 'khona wla khtna makayn(a)ch')
         else:
-            message = 'ma Hellowch asidi'
+            message = template('template').render(message = 'rak ma9lbti 3la walo')
 
         self.wfile.write(bytes(message, 'utf8'))
 
