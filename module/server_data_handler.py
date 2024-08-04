@@ -2,20 +2,23 @@ import warnings
 # to ignore all warnings
 warnings.filterwarnings('ignore')
 
-# import the needed modules from jinja2
-from jinja2 import Environment, FileSystemLoader, select_autoescape
-
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import cgi
 import search
 import os
-import template
+import template_generator as t
+import docx_generator
+import os
+
+host = '127.0.0.1'
+port = 8000
 
 
 class handler(BaseHTTPRequestHandler):
 
     # description of how to handle GET requests
     def do_GET(self):
+
         if self.path.endswith(('.css', '.js', '.png', '.woff2', '.ttf')):
             # Serving CSS, JS, webfonts and image files
             # os.path.splitext() splits the pathname self.path into a tuple (root, extention)
@@ -46,9 +49,7 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            tmplt = template.template_generator.template('template')
-            message = tmplt.render()
-
+            message = t.template_generator.template('template')
             self.wfile.write(bytes(message, 'utf8'))
     
     # description of how to handle POST requests
@@ -63,24 +64,61 @@ class handler(BaseHTTPRequestHandler):
             headers=self.headers, # gets the header
             environ={'REQUEST_METHOD': 'POST'} # inform the cgi with request method
         )
-        
-        if 'id' in form:
+
+
+        if 'search' in form and 'id' in form:
             id = form['id'].value
             # get the user with the search module
             if search.find_user(id):
                 data =  search.find_user(id)
-                message = template('template').render(data = data)
-
+                message = t.template_generator.template('template', data=data)
             else : 
-                message = template('template').render(message = 'khona wla khtna makayn(a)ch')
+                message = t.template_generator.template('template',message = 'khona wla khtna makayn(a)ch')  
+
+        elif 'generate' in form:
+            data_two = [None] * 8
+            for i in range(8):
+                data_two[i] = form[f'data_{i}'].value
+            
+            dg = docx_generator.docx_generator()
+            dg.add_name(f'{data_two[1]} {data_two[2]}')
+            dg.add_grade(data_two[3])
+            dg.add_workplace(data_two[4])
+            dg.add_rib(data_two[5])
+            dg.add_bank(data_two[6])
+            dg.add_agence(data_two[7])
+            dg.end_of_file()
+
+            doc = dg.doc
+
+            path_doc = 'downloads/doc.docx'
+            if os.path.exists(path_doc):
+                os.remove(path_doc)
+            doc.save(path_doc)
+
+            try:
+                os.startfile(r'downloads\doc.docx')
+                message = t.template_generator.template('template',message = 'Done !')
+            except FileNotFoundError as e:
+                print(f'file not found in : {e.filename}')
+            
+
+            
         else:
-            message = template('template').render(message = 'rak ma9lbti 3la walo')
+            message = t.template_generator.template('template')
+
 
         self.wfile.write(bytes(message, 'utf8'))
 
-host = '127.0.0.1'
-port = 8000
-if __name__ == '__main__':
+
+
+# Function to start a server on a specific port
+def start_server(port):
     with HTTPServer((host, port), handler) as server:
         print(f'server running in {host} with the port :{port}')
         server.serve_forever()
+
+
+
+if __name__ == '__main__':
+    start_server(port)

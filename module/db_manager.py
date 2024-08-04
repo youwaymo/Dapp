@@ -1,4 +1,4 @@
-from module.extract_from_excel import get_data_from_excel as data
+import excel_extractor as data
 import sqlite3 as sqll
 
 # function to commit and close
@@ -7,7 +7,7 @@ def commit_close(db):
     db.close()
 
 # table_labels
-tl = data()
+tl = data.get_data_from_excel()
 
 db = sqll.connect(r'Db\database.db')
 cr = db.cursor()
@@ -30,4 +30,5 @@ def insert_into_db():
     
     return True
 
+insert_into_db()
 commit_close(db)

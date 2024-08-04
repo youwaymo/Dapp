@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+ <!-- {% block title %} ch l3ba {% endblock%} -->
 {% block body %}
 
     <header>
@@ -30,38 +30,57 @@
                     </tr>
                     <tr>
                         <form action="http://127.0.0.1:8000" method="post">
-                            <th><input type="search" placeholder="Id" id="id" name="id"></th>
-                            <th><input type="search" placeholder="Prenom" id="prenom" name="prenom"></th>
-                            <th><input type="search" placeholder="Nom" id="nom" name="nom"></th>
+                            <th><input type="search" placeholder="Id" name="id"></th>
+                            <th><input type="search" placeholder="Prenom" name="prenom"></th>
+                            <th><input type="search" placeholder="Nom" name="nom"></th>
                             <th>-----</th>
                             <th>-----</th>
-                            <th><input type="search" placeholder="CIN" id="cin" name="cin"></th>
+                            <th><input type="search" placeholder="CIN" name="cin"></th>
                             <th>-----</th>
                             <th>-----</th>
-                            <th><input type="submit" id="submit" value="Search" name="submit"></th>
+                            <th><input type="submit" value="Search" name="search"></th>
                         </form>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                {% if data %}
-                        
-                        <td>{{ data[0] }}</td>
-                        <td>{{ data[1] }}</td>
-                        <td>{{ data[2] }}</td>
-                        <td>{{ data[3] }}</td>
-                        <td>{{ data[4] }}</td>
-                        <td>{{ data[5] }}</td>
-                        <td>{{ data[6] }}</td>
-                        <td>{{ data[7] }}</td>
-                        <td>-----</td>
+                <tbody>     
+                    {% if data %}
+                        <tr>
+                            <form action="http://127.0.0.1:8000" method="post">
+                                <td><input type="hidden" value="{{ data[0] }}" name="data_0"> {{ data[0] }}</td>
+                                <td><input type="hidden" value="{{ data[1] }}" name="data_1"> {{ data[1] }}</td>
+                                <td><input type="hidden" value="{{ data[2] }}" name="data_2"> {{ data[2] }}</td>
+                                <td><input type="hidden" value="{{ data[3] }}" name="data_3"> {{ data[3] }}</td>
+                                <td><input type="hidden" value="{{ data[4] }}" name="data_4"> {{ data[4] }}</td>
+                                <td><input type="hidden" value="{{ data[5] }}" name="data_5"> {{ data[5] }}</td>
+                                <td><input type="hidden" value="{{ data[6] }}" name="data_6"> {{ data[6] }}</td>
+                                <td><input type="hidden" value="{{ data[7] }}" name="data_7"> {{ data[7] }}</td>
+                                <td><input type="submit" value="Generate" name="generate"></td>
+                            </form>
+                        </tr>
+                    {% elif message %}
+                        <tr>
+                            <td colspan="9"> {{ message }}  </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="9"> No Data </td>
+                        </tr>
+                    {% endif %}
+                    {% if data_two %}
+                        <tr>
+                                <td>{{ data_two[0] }}</td>
+                                <td>{{ data_two[1] }}</td>
+                                <td>{{ data_two[2] }}</td>
+                                <td>{{ data_two[3] }}</td>
+                                <td>{{ data_two[4] }}</td>
+                                <td>{{ data_two[5] }}</td>
+                                <td>{{ data_two[6] }}</td>
+                                <td>{{ data_two[7] }}</td>
+                                <td></td> 
+                            </tr>
+                    {% endif %}
+                    
 
-                {% elif message %}
-                        <td colspan="9"> {{ message }}  </td>
-                {% else %}
-                        <td colspan="9"> No Data </td>
-                {% endif %}
-                    </tr>
                 </tbody>
             </table>
         </section>
