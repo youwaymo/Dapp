@@ -7,29 +7,32 @@ import datetime as dt
 
 
 class docx_generator():
-    main_font_size = Pt(12.0)
-    doc = Document()
 
-    # set page height and width and ...
-    section = doc.sections[0]
-    section.page_height = Mm(297)
-    section.page_width = Mm(210)
-    section.top_margin = Mm(5)
-    section.bottom_margin = Mm(5)
+    def __init__(self):
+        self.main_font_size = Pt(12.0)
+        self.doc = Document()
 
-    head_text = 'ROYAUME DU MAROC\nMINISTERE DE L\'INTERIEUR\nWILAYA DE LA REGION DE RABAT-\nSALE-KENITRA\nPREFECTURE DE RABAT\nSECRETARIAT GENERAL\nDIVISION DU BUDGET ET DES MARCHES\nSERVICE DU BUDGET'
+    def add_page_measurements(self):
+        # set page height and width and ...
+        section = self.doc.sections[0]
+        section.page_height = Mm(297)
+        section.page_width = Mm(210)
+        section.top_margin = Mm(5)
+        section.bottom_margin = Mm(5)
 
-    heading = doc.add_heading(head_text,3)
-    heading.paragraph_format.left_indent = Inches(-5.0)
-    heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    def add_heading(self):
+        head_text = 'ROYAUME DU MAROC\nMINISTERE DE L\'INTERIEUR\nWILAYA DE LA REGION DE RABAT-\nSALE-KENITRA\nPREFECTURE DE RABAT\nSECRETARIAT GENERAL\nDIVISION DU BUDGET ET DES MARCHES\nSERVICE DU BUDGET'
+        heading = self.doc.add_heading(head_text,3)
+        heading.paragraph_format.left_indent = Inches(-5.0)
+        heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-
-    title = doc.add_paragraph()
-    title_run = title.add_run('ATTESTATION DE DOMICILIATION\nDE SALAIRE IRREVOCABLE\n*****************')
-    title_run.font.size = Pt(16.0)
-    title_run.bold = True
-    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    title.paragraph_format.space_before = Inches(0.5)
+    def add_title(self):
+        title = self.doc.add_paragraph()
+        title_run = title.add_run('ATTESTATION DE DOMICILIATION\nDE SALAIRE IRREVOCABLE\n*****************')
+        title_run.font.size = Pt(16.0)
+        title_run.bold = True
+        title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        title.paragraph_format.space_before = Inches(0.5)
 
     def add_name(self, n ='walo'):
         name = self.doc.add_paragraph()
@@ -46,12 +49,25 @@ class docx_generator():
     def add_workplace(self, w = 'walo'):
         workplace = self.doc.add_paragraph()
         workplace.add_run('En fonction au :  ').font.size = self.main_font_size
+        if w == 'Autre': w = '..............................'
         workplace.add_run(w).font.size = self.main_font_size
 
+
+    def rib_text(func):
+
+        def inner_func(self, *args):
+            rib_text = self.doc.add_paragraph()
+            rib_text.add_run('Sera à compter de ce jour viré chaque mois à son compte  Bancaire N° :  ').font.size = self.main_font_size
+            rib_text.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            func(self, *args)
+        
+        return inner_func
+    
+    @rib_text
     def add_rib(self, r = 'walo'):
         rib = self.doc.add_paragraph()
-        rib.add_run('Sera à compter de ce jour viré chaque mois à son compte  Bancaire N° :  ').font.size = self.main_font_size
         rib.add_run(r).font.size = self.main_font_size
+        rib.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
     def add_bank(self, b = 'walo'):
         bank = self.doc.add_paragraph()

@@ -81,6 +81,9 @@ class handler(BaseHTTPRequestHandler):
                 data_two[i] = form[f'data_{i}'].value
             
             dg = docx_generator.docx_generator()
+            dg.add_page_measurements()
+            dg.add_heading()
+            dg.add_title()
             dg.add_name(f'{data_two[1]} {data_two[2]}')
             dg.add_grade(data_two[3])
             dg.add_workplace(data_two[4])
