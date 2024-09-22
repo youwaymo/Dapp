@@ -1,6 +1,6 @@
 import sqlite3 as sqll
 
-db = sqll.connect(r'Db/database.db')
+db = sqll.connect(r'Db\database.db')
 cr = db.cursor()
 
 def find_user(id):

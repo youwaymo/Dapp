@@ -9,10 +9,10 @@ def commit_close(db):
 # table_labels
 tl = data.get_data_from_excel()
 
-db = sqll.connect(r'Db\database.db')
+db = sqll.connect("Db\\database.db")
 cr = db.cursor()
 
-cr.execute(f'create table if not exists Employee ({tl[0][0]} integer PRIMARY KEY UNIQUE, {tl[0][1]} text, {tl[0][2]} text, {tl[0][3]} text, {tl[0][4]} date, {tl[0][5]} text, {tl[0][6]} text, {tl[0][7].split()[0]}_{tl[0][7].split()[1]} text)')
+cr.execute(f'create table if not exists Employee ({tl[0][0]} integer PRIMARY KEY UNIQUE, {tl[0][1]} text, {tl[0][2]} text, {tl[0][3]} text, {tl[0][4]} date, {tl[0][5]} text, {tl[0][6]} text, {tl[0][7]} text)')
 
 # inserting data in Employee table
 def insert_into_db():

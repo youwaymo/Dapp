@@ -34,9 +34,13 @@ class docx_generator():
         title.alignment = WD_ALIGN_PARAGRAPH.CENTER
         title.paragraph_format.space_before = Inches(0.5)
 
-    def add_name(self, n ='walo'):
+    def add_name(self, n ='walo', s = 'm'):
+        if s == 'm':
+            tmp = 'M'
+        elif s == 'f':
+            tmp = 'Mme'
         name = self.doc.add_paragraph()
-        name.add_run('Le Wali de la Région de Rabat-Salé-Kenitra, Gouverneur de la Préfecture de Rabat, sous-ordonnateur du Budget Général. Atteste par la présente que le salaire mensuel de M. (Mme):  ').font.size = self.main_font_size
+        name.add_run(f'Le Wali de la Région de Rabat-Salé-Kenitra, Gouverneur de la Préfecture de Rabat, sous-ordonnateur du Budget Général. Atteste par la présente que le salaire mensuel de {tmp}:  ').font.size = self.main_font_size
         name.add_run(n).font.size = self.main_font_size
         name.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
         name.paragraph_format.first_line_indent = Inches(0.5)
@@ -74,11 +78,16 @@ class docx_generator():
         bank.add_run('Ouvert auprès de :  ').font.size = self.main_font_size
         bank.add_run(b).font.size = self.main_font_size
 
-    def add_agence(self, a = 'walo'):
+    def add_agence(self, a = 'walo', s = 'm'):
+        if s == 'm':
+            tmp = ''
+        elif s == 'f':
+            tmp = 'e'
+
         agence = self.doc.add_paragraph()
         agence.add_run('Agence de :  ').font.size = self.main_font_size
         agence.add_run('.' * 30).font.size = self.main_font_size
-        agence.add_run('  Tant qu’il est en exercice dans sa fonction.\nPar ailleurs, aucune  avance  sur salaire  ne sera versée à l\'intéressé (e) au cas où  celui-ci cesserait  son activité au sein de cette préfecture, cette dernière décline sa responsabilité en cas de démission, de révocation ou du décès de l’intéressé.').font.size = self.main_font_size
+        agence.add_run(f'  Tant qu’il est en exercice dans sa fonction.\nPar ailleurs, aucune  avance  sur salaire  ne sera versée à l\'intéressé{tmp} au cas où  celui-ci cesserait  son activité au sein de cette préfecture, cette dernière décline sa responsabilité en cas de démission, de révocation ou du décès de l’intéressé.').font.size = self.main_font_size
         agence.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
 
     def end_of_file(self):

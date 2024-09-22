@@ -84,12 +84,12 @@ class handler(BaseHTTPRequestHandler):
             dg.add_page_measurements()
             dg.add_heading()
             dg.add_title()
-            dg.add_name(f'{data_two[1]} {data_two[2]}')
+            dg.add_name(f'{data_two[1]} {data_two[2]}', f'{data_two[7][0].lower()}')
             dg.add_grade(data_two[3])
             dg.add_workplace(data_two[4])
             dg.add_rib(data_two[5])
             dg.add_bank(data_two[6])
-            dg.add_agence(data_two[7])
+            dg.add_agence(data_two[7],f'{data_two[7][0].lower()}')
             dg.end_of_file()
 
             doc = dg.doc
